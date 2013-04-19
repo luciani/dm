@@ -19,7 +19,10 @@ public class Repertoire extends FileSystem
       
     
     /**
-     * Constructor for objects of class Repertoire
+     * Constructeur d'objets de la classe Repertoire
+     * 
+     * @param nom du Repertoire
+     * @exception FileSystemNullException si le nom est vide
      */
     public Repertoire(String nom) throws FileSystemNullException
     {
@@ -34,6 +37,7 @@ public class Repertoire extends FileSystem
      * Ajoute un fichier ou un repertoire si ce repertoire n'est pas complet
      * 
      * @param file
+     * @exception RepertoirePleinException si Repertoire plein
      * @return boolean vrai si ajout possible faux sinon
      */
     public boolean ajouterFileSystem(FileSystem file) throws RepertoirePleinException
@@ -52,7 +56,7 @@ public class Repertoire extends FileSystem
     /**
      * taille du repertoire
      * 
-     * @return  int   taille
+     * @return taille de tous les éléments du repertoire
      */
     public int taille()
     {
@@ -63,40 +67,53 @@ public class Repertoire extends FileSystem
         }
         return sumTaille;
     }
-    
-    public String liste_file_type()
-    {
-	    String liste_nom=" ";
-	    for(int i=0;i<nbFile;++i)
-	    liste_nom+=this.get_nom() +" "+ this.get_type() + "contient : " + liste[i].get_nom()+ " " + liste[i].get_type()+ " | ";
-	
-	    return liste_nom;
-    }
-    
+  
+   /**
+    * Permet d'obtenir la liste de tous les éléments directs du repertoire 
+    * @return liste des éléments
+    */
     public FileSystem[] get_liste(){
     	return this.liste;
     }
-
+    
+    /**
+     *Permet de récupérer le nom du repertoire
+     *@return nom du repertoire 
+     */
     public String get_nom()
     {
     	return super.get_nom();
     }
-
+    
+    /**
+     *Permet de récupérer le type: directory
+     *@return type "directory" 
+     */
     public String get_type()
     {
     	return "directory";
     }
     
+    /**
+     *Permet de récupérer le nombre d'éléments du repertoire
+     *@return nombre éléments  
+     */
     public int get_nbFile()
     {
     	return nbFile;
     }
-    
+    /**
+     * Vérifie que l'objet ne peut être ajouté à lui-même ni à un sous-répertoire de lui-même
+     * Si file est un fichier renvoie vraie
+     * Sinon Explore le file
+     * @param file
+     * @return boolean vrai si n'est pas dans le repertoire, faux sinon
+     */
     public boolean notInDirectory(FileSystem file){
     	FileSystem[] liste;
     	boolean isNotIn = true;
     	int i =0;
-    	
+    	//Vérifie que le file est repertoire
     	if(file.get_type().equals("directory"))
     	{
     		
@@ -114,7 +131,11 @@ public class Repertoire extends FileSystem
     	}
     	return isNotIn;
     }
-    
+    /**
+     * Vérifie que file ne porte pas le même qu'un élément présent dans le repertoire
+     * @param file
+     * @return boolean vrai si n'existe pas, faux sinon
+     */
     public boolean notAlreadyExist(FileSystem file){
     	boolean notExist = true;
     	int i=0;
